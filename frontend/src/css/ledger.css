@@ -1,0 +1,239 @@
+.report-table-wrap {
+  height: 278px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--surface);
+}
+
+.report-table-wrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.report-table-wrap::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.report-table-wrap::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--surface);
+}
+
+.report-table-wrap::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-soft);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.data-table tbody td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.data-table .is-numeric {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Ledger */
+.ledger-count {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+}
+
+.filter-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.filter-toolbar__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-toolbar__count {
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.filter-toolbar__active {
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.filter-field {
+  flex: 1 1 200px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-field label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.filter-field input,
+.filter-field select {
+  height: 36px;
+  padding: 0 10px;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.filter-field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.filter-field option {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 10px;
+}
+
+.filter-form button {
+  flex: 0 0 auto;
+  min-height: 36px;
+}
+
+@media (max-width: 640px) {
+  .filter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-field {
+    flex: 1 1 100%;
+  }
+
+  .filter-field input,
+  .filter-field select {
+    width: 100%;
+  }
+}
+
+.ledger-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+}
+
+.ledger-table-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.ledger-table {
+  min-width: 760px;
+}
+
+.ledger-table thead th {
+  padding: 13px 18px;
+}
+
+.ledger-table tbody td {
+  padding: 14px 18px;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.amount {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: var(--radius-md);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

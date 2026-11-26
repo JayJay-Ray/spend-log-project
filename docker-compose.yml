@@ -1,0 +1,71 @@
+name: spendlog
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-spendlog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spendlog_password}
+      POSTGRES_DB: ${POSTGRES_DB:-spendlog}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./backend/db/expenses.sql:/docker-entrypoint-initdb.d/01-expenses.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+  backend:
+    build:
+      context: ./backend
+      target: development
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-spendlog}:${POSTGRES_PASSWORD:-spendlog_password}@db:5432/${POSTGRES_DB:-spendlog}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      DB_CONNECT_TIMEOUT_MS: ${DB_CONNECT_TIMEOUT_MS:-5000}
+      DB_IDLE_TIMEOUT_MS: ${DB_IDLE_TIMEOUT_MS:-30000}
+      DB_STATEMENT_TIMEOUT_MS: ${DB_STATEMENT_TIMEOUT_MS:-10000}
+      CORS_ORIGIN: "${CORS_ORIGIN:-http://localhost:5173}"
+      RATE_LIMIT_WINDOWS_MS: ${RATE_LIMIT_WINDOWS_MS:-60000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+      TRUST_PROXY: ${TRUST_PROXY:-0}
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-3000}:3000"
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://localhost:3000/db/health-check').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+volumes:
+  pg_data:
+  backend_node_modules:
+  frontend_node_modules:

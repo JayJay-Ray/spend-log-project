@@ -1,0 +1,97 @@
+:root {
+  --font-sans:
+    "Manrope Variable", "Manrope", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  /* Light Mode Palette - Achromatic */
+  --bg: #ffffff;
+  --surface: #f5f5f5;
+  --surface-soft: #eeeeee;
+  --surface-muted: #e0e0e0;
+  --surface-hover: #f0f0f0;
+  --text: #000000;
+  --text-soft: #404040;
+  --muted: #737373;
+  --border: #a3a3a3;
+  --border-strong: #737373;
+
+  /* Primary Action */
+  --accent: #000000;
+  --accent-contrast: #ffffff;
+
+  /* Category Palette - Monochromatic Palette (#124E66) */
+  --cat-1: #124e66;
+  --cat-2: #2b677f;
+  --cat-3: #458ca6;
+  --cat-4: #74a9bd;
+  --cat-5: #a3c6d4;
+
+  /* Chart Variables - Monochromatic Palette (#124E66) */
+  --chart-grid: #d4d4d4;
+  --chart-text: #737373;
+  --chart-cursor: #f5f5f5;
+  --chart-1: #124e66;
+  --chart-2: #2b677f;
+  --chart-3: #458ca6;
+  --chart-4: #74a9bd;
+  --chart-5: #a3c6d4;
+
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light;
+
+  /* UI Base Styling */
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  /* Danger/Error color */
+  --danger: #dc2626;
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Palette - Achromatic */
+  --bg: #000000;
+  --surface: #121212;
+  --surface-soft: #1e1e1e;
+  --surface-muted: #262626;
+  --surface-hover: #1a1a1a;
+  --text: #ffffff;
+  --text-soft: #a3a3a3;
+  --muted: #737373;
+  --border: #333333;
+  --border-strong: #525252;
+
+  --accent: #ffffff;
+  --accent-contrast: #000000;
+
+  /* Categories - Monochromatic Palette (#124E66) */
+  --cat-1: #124e66;
+  --cat-2: #2b677f;
+  --cat-3: #458ca6;
+  --cat-4: #74a9bd;
+  --cat-5: #a3c6d4;
+
+  /* Chart Variables - Monochromatic Palette (#124E66) */
+  --chart-grid: #262626;
+  --chart-text: #a3a3a3;
+  --chart-cursor: #121212;
+  --chart-1: #124e66;
+  --chart-2: #2b677f;
+  --chart-3: #458ca6;
+  --chart-4: #74a9bd;
+  --chart-5: #a3c6d4;
+
+  color-scheme: dark;
+
+  /* UI Base Styling */
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  /* Danger/Error color */
+  --danger: #ef4444;
+}
