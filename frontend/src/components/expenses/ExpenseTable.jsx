@@ -1,37 +1,32 @@
-import { Pencil, Trash2 } from 'lucide-react'
-import { formatDate } from '../../lib/dates.js'
-import { formatCurrency } from '../../lib/money.js'
-import CategoryBadge from '../CategoryBadge.jsx'
-import Skeleton from '../ui/Skeleton.jsx'
+import { Pencil, Trash2 } from "lucide-react";
+import { formatDate } from "../../lib/dates.js";
+import { formatCurrency } from "../../lib/money.js";
+import CategoryBadge from "../CategoryBadge.jsx";
+import Skeleton from "../ui/Skeleton.jsx";
 
 function SkeletonRows() {
   return Array.from({ length: 5 }, (_, index) => (
     <tr key={index}>
-      <td>
+      <td data-label="Date">
         <Skeleton width="92px" height="13px" />
       </td>
-      <td>
+      <td data-label="Description">
         <Skeleton width="65%" height="13px" />
       </td>
-      <td>
+      <td data-label="Category">
         <Skeleton width="82px" height="20px" />
       </td>
-      <td className="is-numeric">
+      <td className="is-numeric" data-label="Amount">
         <Skeleton width="76px" height="13px" />
       </td>
-      <td>
+      <td data-label="Actions">
         <Skeleton width="56px" height="24px" />
       </td>
     </tr>
-  ))
+  ));
 }
 
-export default function ExpenseTable({
-  rows,
-  loading,
-  onEdit,
-  onDelete,
-}) {
+export default function ExpenseTable({ rows, loading, onEdit, onDelete }) {
   return (
     <div className="ledger-table-scroll">
       <table className="data-table ledger-table" id="expenses-table">
@@ -54,12 +49,12 @@ export default function ExpenseTable({
           ) : (
             rows.map((expense) => (
               <tr key={expense.id}>
-                <td>
+                <td data-label="Date">
                   <time dateTime={expense.expense_date}>
                     {formatDate(expense.expense_date)}
                   </time>
                 </td>
-                <td>
+                <td data-label="Description">
                   <span
                     className="ledger-table__description"
                     title={expense.description}
@@ -67,15 +62,15 @@ export default function ExpenseTable({
                     {expense.description}
                   </span>
                 </td>
-                <td>
+                <td data-label="Category">
                   <CategoryBadge category={expense.category} plain />
                 </td>
-                <td className="is-numeric">
+                <td className="is-numeric" data-label="Amount">
                   <span className="amount">
                     {formatCurrency(expense.amount)}
                   </span>
                 </td>
-                <td>
+                <td data-label="Actions">
                   <div className="row-actions">
                     <button
                       className="icon-button icon-button--subtle"
@@ -103,5 +98,5 @@ export default function ExpenseTable({
         </tbody>
       </table>
     </div>
-  )
+  );
 }

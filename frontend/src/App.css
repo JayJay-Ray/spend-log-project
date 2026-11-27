@@ -60,7 +60,7 @@
     grid-column: auto;
   }
 
-  .chart-frame--monthly {
+  .daily-chart-scroll {
     height: 240px;
   }
 
@@ -70,11 +70,6 @@
 
   .ledger-table {
     min-width: 640px;
-  }
-
-  .app-header {
-    flex-wrap: wrap;
-    gap: 10px;
   }
 }
 
@@ -88,7 +83,7 @@
     grid-template-columns: 1fr;
   }
 
-  .chart-frame--monthly {
+  .daily-chart-scroll {
     height: 210px;
   }
 
@@ -103,6 +98,10 @@
   .report-table-wrap {
     height: auto;
     max-height: 300px;
+  }
+
+  .report-card__split {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -140,7 +139,7 @@
     font-size: 18px;
   }
 
-  .chart-frame--monthly {
+  .daily-chart-scroll {
     height: 190px;
   }
 
@@ -159,6 +158,112 @@
   .ledger-table thead th,
   .ledger-table tbody td {
     padding: 10px 12px;
+  }
+
+  .app-header__inner {
+    min-height: 64px;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .report-card {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .chart-empty {
+    min-height: 160px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ledger-table-scroll {
+    overflow-x: visible;
+  }
+
+  .ledger-table {
+    min-width: 0;
+  }
+
+  .ledger-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .ledger-table,
+  .ledger-table tbody,
+  .ledger-table tr,
+  .ledger-table td {
+    display: block;
+  }
+
+  .ledger-table tbody tr {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ledger-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .ledger-table tbody td {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 5px 0;
+    border: 0;
+    text-align: left;
+  }
+
+  .ledger-table tbody td::before {
+    content: attr(data-label);
+    padding-top: 2px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  .ledger-table tbody td.is-numeric {
+    text-align: right;
+  }
+
+  .ledger-table tbody td:last-child {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+
+  .ledger-table tbody td:last-child::before {
+    display: none;
+  }
+
+  .ledger-table__description,
+  .category-text {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions .btn {
+    width: 42px;
+    min-width: 42px;
+    padding: 0;
+    gap: 0;
+  }
+
+  .header-actions .btn__label {
+    display: none;
   }
 }
 

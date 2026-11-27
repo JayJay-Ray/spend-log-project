@@ -19,4 +19,17 @@ const apiRateLimiter = rateLimit({
   },
 });
 
-module.exports = apiRateLimiter;
+const writeRateLimiter = rateLimit({
+  windowMs: positiveInteger(process.env.WRITE_RATE_LIMIT_WINDOWS_MS, 60_000),
+  limit: positiveInteger(process.env.WRITE_RATE_LIMIT_MAX, 10),
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  skip: (req) => req.method === "OPTIONS",
+  handler: (_req, res, _next, options) => {
+    res
+      .status(options.statusCode)
+      .json({ error: "Too many write requests. Please try again later." });
+  },
+});
+
+module.exports = { apiRateLimiter, writeRateLimiter };

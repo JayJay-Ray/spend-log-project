@@ -6,11 +6,13 @@ import {
   validateExpense,
 } from "../../lib/expense-validation.js";
 import Modal from "../ui/Modal.jsx";
+import { findDuplicate } from "../../lib/expense-duplicate.js";
 
 export default function ExpenseFormDialog({
   open,
   expense,
   categorySuggestions,
+  existingExpenses = [],
   onClose,
   onSaved,
 }) {
@@ -23,20 +25,27 @@ export default function ExpenseFormDialog({
   const formId = useId();
   const descriptionInputRef = useRef(null);
   const [newCategory, setNewCategory] = useState("");
+  const [dirty, setDirty] = useState(false);
   const isEditing = Boolean(expense);
 
   useEffect(() => {
-    if (open && descriptionInputRef.current) {
-      descriptionInputRef.current.focus();
-    }
     if (open) {
+      setValues(getInitialValues(expense));
+      setErrors({});
+      setServerError("");
       setNewCategory("");
+      setDirty(false);
+      if (descriptionInputRef.current) {
+        descriptionInputRef.current.focus();
+      }
     }
-  }, [open]);
+  }, [open, expense]);
 
   function updateField(field, value) {
     setValues((current) => ({ ...current, [field]: value }));
+    setDirty(true);
     setErrors((current) => ({ ...current, [field]: undefined }));
+    setServerError("");
   }
 
   async function handleSubmit(event) {
@@ -50,21 +59,29 @@ export default function ExpenseFormDialog({
       return;
     }
 
-    setSubmitting(true);
-
     const selectedCategory = newCategory.trim() || values.category.trim();
 
-    const payload = {
+    const candidate = {
       expense_date: values.expenseDate,
       description: values.description.trim(),
       category: selectedCategory,
       amount: Number(values.amount),
     };
 
+    if (!isEditing) {
+      const duplicate = findDuplicate(candidate, existingExpenses);
+      if (duplicate) {
+        setServerError("This expense already exists.");
+        return;
+      }
+    }
+
+    setSubmitting(true);
+
     try {
       const savedExpense = isEditing
-        ? await updateExpense(expense.id, payload)
-        : await createExpense(payload);
+        ? await updateExpense(expense.id, candidate)
+        : await createExpense(candidate);
 
       onSaved({
         expense: savedExpense,
@@ -75,7 +92,6 @@ export default function ExpenseFormDialog({
       const fieldErrors = (requestError.details ?? []).reduce(
         (accum, issue) => {
           const field = (issue.field ?? "server").replace(/^query\./, "");
-
           return {
             ...accum,
             [field]: issue.message ?? "Could not save the expense.",
@@ -101,6 +117,14 @@ export default function ExpenseFormDialog({
       description="Fill in the expense details to add or update a record."
     >
       <form onSubmit={handleSubmit} noValidate>
+        {serverError && (
+          <div className="form-error alert alert--error" role="alert">
+            <span className="alert__icon" aria-hidden="true">
+              ⚠️
+            </span>
+            <span className="alert__message">{serverError}</span>
+          </div>
+        )}
         <div className="form-grid">
           <div className="form-field">
             <label htmlFor={descriptionId}>
@@ -162,7 +186,10 @@ export default function ExpenseFormDialog({
                   id={`${categoryListId}-new`}
                   type="text"
                   value={newCategory}
-                  onChange={(event) => setNewCategory(event.target.value)}
+                  onChange={(event) => {
+                    setNewCategory(event.target.value);
+                    setServerError("");
+                  }}
                   placeholder="Type a new category"
                   autoFocus
                 />
@@ -223,8 +250,6 @@ export default function ExpenseFormDialog({
           </div>
         </div>
 
-        {serverError && <p className="form-error">{serverError}</p>}
-
         <footer className="modal__footer">
           <button type="button" className="btn btn--ghost" onClick={onClose}>
             Cancel
@@ -232,7 +257,7 @@ export default function ExpenseFormDialog({
           <button
             type="submit"
             className="btn btn--primary"
-            disabled={submitting}
+            disabled={submitting || !dirty}
           >
             {submitting && <LoaderCircle className="spin" size={16} />}
             {submitting

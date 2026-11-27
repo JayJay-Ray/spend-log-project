@@ -4,7 +4,7 @@ const cors = require("cors");
 const { pool } = require("./db.js");
 const expensesRouter = require("./routes/expenses.js");
 const reportRouter = require("./routes/reports/index.js");
-const apiRateLimiter = require("./middleware/ratelimit.js");
+const { apiRateLimiter } = require("./middleware/ratelimit.js");
 const globalErrorHandler = require("./middleware/errorHandler.js");
 
 const app = express();

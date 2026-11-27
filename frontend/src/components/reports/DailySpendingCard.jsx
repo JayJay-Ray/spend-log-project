@@ -18,10 +18,8 @@ import ReportCardHeader from "./ReportCardHeader.jsx";
 import ReportTable from "./ReportTable.jsx";
 
 export default function DailySpendingCard({ data, reducedMotion, version }) {
-  const spendingData = data.filter((row) => row.total > 0);
-  const hasSpending = spendingData.length > 0;
-  const tickInterval = Math.max(0, Math.ceil(spendingData.length / 12) - 1);
-  const chartWidth = Math.max(620, Math.min(12_000, spendingData.length * 14));
+  const tickInterval = Math.max(0, Math.ceil(data.length / 12) - 1);
+  const chartWidth = Math.max(620, Math.min(12_000, data.length * 14));
 
   const columns = [
     {
@@ -42,7 +40,7 @@ export default function DailySpendingCard({ data, reducedMotion, version }) {
       <ReportCardHeader
         icon={ChartColumn}
         title="Daily Report"
-        subtitle={`${spendingData.length} ${spendingData.length === 1 ? "day" : "days"} in the selected range`}
+        subtitle={`${data.length} ${data.length === 1 ? "day" : "days"} in the selected range`}
       />
 
       <div
@@ -51,14 +49,14 @@ export default function DailySpendingCard({ data, reducedMotion, version }) {
         aria-label="Daily spending column chart. The same data is available in the daily totals table."
         key={version}
       >
-        {hasSpending ? (
+        {data.length > 0 ? (
           <div
             className="daily-chart-inner"
             style={{ minWidth: `${chartWidth}px` }}
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={spendingData}
+                data={data}
                 margin={{ top: 12, right: 10, bottom: 4, left: -10 }}
               >
                 <CartesianGrid
@@ -98,10 +96,10 @@ export default function DailySpendingCard({ data, reducedMotion, version }) {
                   radius={[5, 5, 0, 0]}
                   maxBarSize={26}
                   isAnimationActive={!reducedMotion}
-                  animationDuration={spendingData.length > 150 ? 350 : 750}
+                  animationDuration={data.length > 150 ? 350 : 750}
                   animationEasing="ease-out"
                 >
-                  {spendingData.map((_, index) => (
+                  {data.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={
@@ -124,7 +122,7 @@ export default function DailySpendingCard({ data, reducedMotion, version }) {
         <p className="report-card__table-label">Daily totals</p>
         <ReportTable
           columns={columns}
-          rows={spendingData}
+          rows={data}
           getRowKey={(row) => row.date}
           ariaLabel="Daily spending report"
         />

@@ -49,6 +49,9 @@
 
   /* Danger/Error color */
   --danger: #dc2626;
+  --error-bg: #fef2f2;
+  --error-text: #991b1b;
+  --error-border: #fecaca;
 }
 
 [data-theme="dark"] {
@@ -94,4 +97,7 @@
 
   /* Danger/Error color */
   --danger: #ef4444;
+  --error-bg: #7f1d1d;
+  --error-text: #fecaca;
+  --error-border: #991b1b;
 }

@@ -77,6 +77,31 @@
   font-size: 12.5px;
 }
 
+@media (max-width: 640px) {
+  .empty-state,
+  .error-state {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .empty-state__copy,
+  .error-state__copy {
+    flex: 1 1 160px;
+    min-width: 0;
+  }
+
+  .empty-state__action,
+  .error-state > .btn {
+    flex: 1 1 100%;
+  }
+
+  .empty-state__action .btn,
+  .error-state > .btn {
+    width: 100%;
+  }
+}
+
 .skeleton {
   display: inline-block;
   background: var(--surface-muted);
@@ -152,4 +177,14 @@
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: var(--radius-md);
+}
+
+@media (max-width: 400px) {
+  .modal__footer {
+    flex-wrap: wrap;
+  }
+
+  .modal__footer .btn {
+    flex: 1 1 100%;
+  }
 }

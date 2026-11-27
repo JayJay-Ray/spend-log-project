@@ -30,9 +30,10 @@ export default function Header({ theme, onToggleTheme, onAddExpense }) {
             type="button"
             onClick={onAddExpense}
             aria-label="Add expense"
+            title="Add expense"
           >
             <Plus size={17} />
-            <span>Add expense</span>
+            <span className="btn__label">Add expense</span>
           </button>
         </div>
       </div>

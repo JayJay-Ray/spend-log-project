@@ -201,6 +201,7 @@ function App() {
         open={formState.open}
         expense={formState.expense}
         categorySuggestions={categorySuggestions}
+        existingExpenses={expensesState.rows}
         onClose={closeExpenseForm}
         onSaved={handleExpenseSaved}
       />

@@ -1,6 +1,7 @@
 const express = require("express");
 const { pool } = require("../db.js");
 const validate = require("../middleware/validate.js");
+const { writeRateLimiter } = require("../middleware/ratelimit.js");
 const {
   createExpenseSchema,
   updateExpenseSchema,
@@ -115,33 +116,51 @@ router.get(
   },
 );
 
-router.post("/", validate(createExpenseSchema), async (req, res) => {
-  const expense = req.validated.body;
+router.post(
+  "/",
+  writeRateLimiter,
+  validate(createExpenseSchema),
+  async (req, res) => {
+    const expense = req.validated.body;
 
-  const result = await pool.query(
-    `
-      INSERT INTO expenses (expense_date, description, category, amount)
-      VALUES ($1, $2, $3, $4)
-      RETURNING ${EXPENSE_COLUMNS}
-    `,
-    [
-      expense.expense_date,
-      expense.description,
-      expense.category,
-      expense.amount,
-    ],
-  );
+    try {
+      const result = await pool.query(
+        `
+        INSERT INTO expenses (expense_date, description, category, amount)
+        VALUES ($1, $2, $3, $4)
+        RETURNING ${EXPENSE_COLUMNS}
+      `,
+        [
+          expense.expense_date,
+          expense.description,
+          expense.category,
+          expense.amount,
+        ],
+      );
 
-  const created = result.rows[0];
+      const created = result.rows[0];
 
-  res
-    .status(201)
-    .location(`/api/expenses/${created.id}`)
-    .json(toExpenseResponse(created));
-});
+      res
+        .status(201)
+        .location(`/api/expenses/${created.id}`)
+        .json(toExpenseResponse(created));
+    } catch (error) {
+      if (error.code === "23505") {
+        return res.status(409).json({
+          error: "A duplicate expense already exists.",
+          details: [
+            { field: "server", message: "A duplicate expense already exists." },
+          ],
+        });
+      }
+      throw error;
+    }
+  },
+);
 
 router.patch(
   "/:id",
+  writeRateLimiter,
   validate(expenseIdParamSchema, "params"),
   validate(updateExpenseSchema),
   async (req, res) => {
@@ -165,26 +184,39 @@ router.patch(
 
     values.push(id);
 
-    const result = await pool.query(
-      `
+    try {
+      const result = await pool.query(
+        `
         UPDATE expenses
         SET ${assignments.join(", ")}
         WHERE id = $${values.length}
         RETURNING ${EXPENSE_COLUMNS}
       `,
-      values,
-    );
+        values,
+      );
 
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Expense not found." });
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: "Expense not found." });
+      }
+
+      res.json(toExpenseResponse(result.rows[0]));
+    } catch (error) {
+      if (error.code === "23505") {
+        return res.status(409).json({
+          error: "A duplicate expense already exists.",
+          details: [
+            { field: "server", message: "A duplicate expense already exists." },
+          ],
+        });
+      }
+      throw error;
     }
-
-    res.json(toExpenseResponse(result.rows[0]));
   },
 );
 
 router.delete(
   "/:id",
+  writeRateLimiter,
   validate(expenseIdParamSchema, "params"),
   async (req, res) => {
     const { id } = req.validated.params;

@@ -15,3 +15,6 @@ CREATE INDEX IF NOT EXISTS idx_expenses_category
 
 CREATE INDEX IF NOT EXISTS idx_expenses_date_category
     ON expenses (expense_date, category);
+
+CREATE UNIQUE INDEX IF NOT EXISTS expenses_unique_identity_idx
+    ON expenses (expense_date, description, category, amount);
