@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="SpendLog Icon">
+  <rect x="4" y="14" width="24" height="36" rx="2" fill="none" stroke="#124E66" stroke-width="3.2" />
+  <path d="M10 10 L32 14 L32 50 L10 46 Z" fill="#FFFFFF" stroke="#124E66" stroke-width="3.2" stroke-linejoin="round" />
+  <line x1="15" y1="22" x2="26" y2="24" stroke="#124E66" stroke-width="2.8" stroke-linecap="round" />
+  <line x1="15" y1="28" x2="26" y2="30" stroke="#124E66" stroke-width="2.8" stroke-linecap="round" />
+  <polyline points="15,36 19,40 26,34" fill="none" stroke="#124E66" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="38" y="34" width="6.5" height="16" rx="1" fill="#458CA6" />
+  <rect x="47.5" y="25" width="6.5" height="25" rx="1" fill="#2B677F" />
+  <rect x="57" y="14" width="6.5" height="36" rx="1" fill="#124E66" />
+</svg>

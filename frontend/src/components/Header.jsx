@@ -1,4 +1,4 @@
-import { Plus, WalletMinimal } from "lucide-react";
+import { Plus } from "lucide-react";
 import ThemeToggle from "./ThemeToggle.jsx";
 
 export default function Header({ theme, onToggleTheme, onAddExpense }) {
@@ -6,8 +6,15 @@ export default function Header({ theme, onToggleTheme, onAddExpense }) {
     <header className="app-header">
       <div className="app-header__inner">
         <div className="brand">
-          <span className="brand__mark" aria-hidden="true">
-            <WalletMinimal size={20} />
+          <span className="brand__mark">
+            <img
+              className="brand__logo"
+              src="/spend-log-logo.svg"
+              alt=""
+              width="40"
+              height="40"
+              decoding="async"
+            />
           </span>
           <span className="brand__copy">
             <span className="brand__name">SpendLog</span>
