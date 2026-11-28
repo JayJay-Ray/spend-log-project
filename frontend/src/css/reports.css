@@ -325,7 +325,6 @@
   min-width: 150px;
   padding: 10px 12px;
   border: 1px solid var(--border);
-  position: absolute !important;
   background-color: var(--bg) !important;
   opacity: 1 !important;
   z-index: 9999 !important;

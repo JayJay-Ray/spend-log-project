@@ -101,6 +101,8 @@ export default function MonthlyTrendCard({ data, reducedMotion, version }) {
                   />
                   <Tooltip
                     isAnimationActive={false}
+                    trigger="click"
+                    position={{ y: 8 }}
                     cursor={{
                       stroke: "var(--border-strong)",
                       strokeDasharray: "4 4",

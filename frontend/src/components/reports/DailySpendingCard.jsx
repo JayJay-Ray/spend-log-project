@@ -82,6 +82,8 @@ export default function DailySpendingCard({ data, reducedMotion, version }) {
                 />
                 <Tooltip
                   isAnimationActive={false}
+                  trigger="click"
+                  position={{ y: 8 }}
                   cursor={{ fill: "var(--chart-cursor)" }}
                   content={
                     <ChartTooltip

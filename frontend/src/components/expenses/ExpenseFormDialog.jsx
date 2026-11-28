@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, CircleAlert } from "lucide-react";
 import { createExpense, updateExpense } from "../../api/client.js";
 import {
   getInitialValues,
@@ -114,14 +114,16 @@ export default function ExpenseFormDialog({
       onClose={onClose}
       closeDisabled={submitting}
       title={isEditing ? "Edit expense" : "Add expense"}
-      description="Fill in the expense details to add or update a record."
+      description={
+        expense
+          ? "Change any expense details to update record."
+          : "Fill in the expense details to add record."
+      }
     >
       <form onSubmit={handleSubmit} noValidate>
         {serverError && (
           <div className="form-error alert alert--error" role="alert">
-            <span className="alert__icon" aria-hidden="true">
-              ⚠️
-            </span>
+            <CircleAlert size={18} strokeWidth={2} />
             <span className="alert__message">{serverError}</span>
           </div>
         )}

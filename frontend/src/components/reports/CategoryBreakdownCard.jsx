@@ -1,5 +1,14 @@
 import { BarChart as BarChartIcon } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { formatCurrency, formatPercent, sumMoney } from "../../lib/money.js";
 import ChartEmptyState from "./ChartEmptyState.jsx";
 import ChartTooltip from "./ChartTooltip.jsx";
@@ -55,14 +64,20 @@ export default function CategoryBreakdownCard({
             <div style={{ height: `${chartHeight}px`, width: "100%" }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    data={chartData}
-                    layout="vertical"
-                    margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
-                  >
+                  data={chartData}
+                  layout="vertical"
+                  margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} />
                   <XAxis type="number" hide />
-                  <YAxis type="category" dataKey="category" width={100} tick={{ fontSize: 12 }} />
+                  <YAxis
+                    type="category"
+                    dataKey="category"
+                    width={100}
+                    tick={{ fontSize: 12 }}
+                  />
                   <Tooltip
+                    trigger="click"
                     cursor={{ fill: "transparent" }}
                     content={
                       <ChartTooltip
